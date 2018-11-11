@@ -1,0 +1,45 @@
+name:                t
+version:             0.1.0.0
+github:              "tkaden4/t"
+license:             MIT
+author:              "Author name here"
+maintainer:          "contact@tkaden.net"
+copyright:           "2018 Kaden Thomas"
+
+extra-source-files:
+- README.md
+
+description:         Please see the README on GitHub at <https://github.com/tkaden4/t>
+
+dependencies:
+- base >= 4.7 && < 5
+- network
+- bytestring
+- path
+- cereal
+- attoparsec
+
+library:
+  source-dirs: src
+
+executables:
+  t-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - t
+
+tests:
+  t-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - t
