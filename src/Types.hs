@@ -56,7 +56,7 @@ newtype Ack = Ack BlockNumber
 -- Errors
 
 data ErrorCode =
-    None
+    NotDefined
     | FileNotFound
     | AccessViolation
     | DiskFull
