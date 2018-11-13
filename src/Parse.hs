@@ -43,7 +43,7 @@ word16BE u16 = (mapM A.word8 $ bytes16BE u16) <&> uncurry fromWordsBE
 -- Parse an input string + an additional \x00 byte
 -- Useful for TFTP options, modes, etc.
 nullTermString :: B.ByteString -> A.Parser B.ByteString
-nullTermString str = A.string str <* A.word8 0
+nullTermString str = A.string str <* A.word8 0x00
 
 -- Parse any sequence of characters, terminated
 -- by an additional \x00 byte. This byte is not
