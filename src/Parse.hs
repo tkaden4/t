@@ -68,6 +68,7 @@ writeReqParser = word16BE writeRequestOpcode >> requestBodyParser <&> WriteR
 
 errorCodeParser :: A.Parser ErrorCode
 errorCodeParser =
+    A.word8 0x00 >>
     A.choice [ w 0x00 NotDefined
              , w 0x01 FileNotFound
              , w 0x02 AccessViolation
@@ -77,7 +78,7 @@ errorCodeParser =
              , w 0x06 FileExists
              , w 0x07 NoUser
              , w 0x08 OperationFailure ] -- TODO check this one
-      where w x r = word16BE x $> r
+      where w x r = A.word8 x $> r
 
 -- Parse an error packet
 errorParser :: A.Parser Error
