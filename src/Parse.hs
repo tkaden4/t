@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+
 module Parse
     (
         ackParser,
@@ -14,8 +15,6 @@ import Types
 import qualified Data.Attoparsec.ByteString as A
 import qualified Data.ByteString as B
 
-import Control.Arrow
-import Control.Monad
 import Control.Applicative
 
 import Data.Word
@@ -60,10 +59,10 @@ requestBodyParser :: A.Parser Request
 requestBodyParser = liftA2 Request anyNullTermString requestModeParser
 
 readReqParser :: A.Parser ReadR
-readReqParser = word16BE readRequestOpcode >> requestBodyParser <&> ReadR
+readReqParser = word16BE readRequestOpcode *> requestBodyParser <&> ReadR
 
 writeReqParser :: A.Parser WriteR
-writeReqParser = word16BE writeRequestOpcode >> requestBodyParser <&> WriteR
+writeReqParser = word16BE writeRequestOpcode *> requestBodyParser <&> WriteR
 
 
 errorCodeParser :: A.Parser ErrorCode
@@ -82,10 +81,10 @@ errorCodeParser =
 
 -- Parse an error packet
 errorParser :: A.Parser Error
-errorParser = word16BE errorOpcode >> liftA2 Error errorCodeParser anyNullTermString
+errorParser = word16BE errorOpcode *> liftA2 Error errorCodeParser anyNullTermString
 
 ackParser :: A.Parser Ack
-ackParser = word16BE ackOpcode >> anyWord16BE <&> Ack
+ackParser = word16BE ackOpcode *> anyWord16BE <&> Ack
 
 dataParser :: A.Parser Data
 dataParser = word16BE dataOpcode *> liftA2 Data anyWord16BE anyNullTermString
